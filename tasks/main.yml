@@ -1,0 +1,30 @@
+---
+# tasks/main.yml
+
+- name: ec2_eni_facts | detect instance id by internal ip
+  ec2_eni_facts:
+    region: "{{ ec2_region }}"
+    filters:
+      addresses.private-ip-address: '{{ ansible_eth0.ipv4.address }}'
+  delegate_to: "127.0.0.1"
+  register: "eni_output"
+
+- name: ec2_metric_alarm | create cloudwatch alarms
+  ec2_metric_alarm:
+    state: "present"
+    region: "{{ ec2_region }}"
+    name: "{{ item.value.alarm_name }}"
+    metric: "{{ item.value.metric }}"
+    namespace: "{{ item.value.namespace }}"
+    statistic: "{{ item.value.statistic }}"
+    comparison: "{{ item.value.comparison }}"
+    threshold: "{{ item.value.threshold }}"
+    period: "{{ item.value.period }}"
+    evaluation_periods: "{{ item.value.evaluation_periods }}"
+    unit: "{{ item.value.unit }}"
+    dimensions: { 'InstanceId': "{{ eni_output.interfaces[0].attachment.instance_id }}" }
+    insufficient_data_actions: ["{{ sns_topic_arn }}"]
+    ok_actions: ["{{ sns_topic_arn }}"]
+    alarm_actions: ["{{ sns_topic_arn }}"]
+  delegate_to: "127.0.0.1"
+  with_dict: "{{ metric_alarms }}"

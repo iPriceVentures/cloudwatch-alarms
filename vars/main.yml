@@ -1,0 +1,24 @@
+---
+# vars/main.yml
+
+metric_alarms:
+  cpu:
+    metric: "CPUUtilization"
+    unit: "Percent"
+    statistic: "Average"
+    comparison: ">="
+    alarm_name: "iprice-{{ app_env }}-{{ group_names | join('') }}-cpu"
+    period: "300"
+    threshold: "80.0"
+    evaluation_periods: "2"
+    namespace: "AWS/EC2"
+  status:
+    metric: "StatusCheckFailed"
+    unit: "Count"
+    statistic: "Maximum"
+    comparison: ">="
+    alarm_name: "iprice-{{ app_env }}-{{ group_names | join('') }}-status"
+    period: "300"
+    threshold: "1"
+    evaluation_periods: "2"
+    namespace: "AWS/EC2"

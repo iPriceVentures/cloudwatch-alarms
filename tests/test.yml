@@ -1,0 +1,7 @@
+---
+# tests/main.yml
+
+- hosts: "localhost"
+  remote_user: "root"
+  roles:
+    - "cloudwatch-alarms"

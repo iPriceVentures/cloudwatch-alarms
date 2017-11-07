@@ -1,0 +1,18 @@
+---
+# meta/mail.yml
+
+galaxy_info:
+  author: "Anton Bormotov"
+  description: "Ansible role for cloudwatch alarms"
+  company: "ipricegroup Sdn Bhd"
+  license: "BSD"
+  min_ansible_version: 1.2
+  github_branch: "master"
+  platforms:
+  - name: "Ubuntu"
+    versions:
+      - "trusty"
+
+  galaxy_tags:
+    - "newrelic-sysmond"
+  dependencies: []
