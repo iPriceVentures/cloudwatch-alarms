@@ -3,7 +3,7 @@
 
 - name: ec2_eni_facts | detect instance id by internal ip
   ec2_eni_facts:
-    region: "{{ ec2_region }}"
+    region: "{{ lookup('env', 'AWS_DEFAULT_REGION') }}"
     filters:
       addresses.private-ip-address: '{{ ansible_eth0.ipv4.address }}'
   delegate_to: "127.0.0.1"
@@ -12,7 +12,7 @@
 - name: ec2_metric_alarm | create cloudwatch alarms
   ec2_metric_alarm:
     state: "present"
-    region: "{{ ec2_region }}"
+    region: "{{ lookup('env', 'AWS_DEFAULT_REGION') }}"
     name: "{{ item.value.alarm_name }}"
     metric: "{{ item.value.metric }}"
     namespace: "{{ item.value.namespace }}"
