@@ -22,7 +22,7 @@
     period: "{{ item.value.period }}"
     evaluation_periods: "{{ item.value.evaluation_periods }}"
     unit: "{{ item.value.unit }}"
-    dimensions: { 'InstanceId': "{{ eni_output.interfaces[0].attachment.instance_id }}" }
+    dimensions: { 'InstanceId': "{{ eni_output.network_interfaces[0].attachment.instance_id }}" }
     insufficient_data_actions: ["{{ sns_topic_arn }}"]
     ok_actions: ["{{ sns_topic_arn }}"]
     alarm_actions: ["{{ sns_topic_arn }}"]
